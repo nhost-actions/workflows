@@ -2,12 +2,15 @@
 name: "Release Workflow"
 on:
   workflow_call:
-    secrets:
-      PAT:
-        required: true
+    inputs:
       IMAGE:
+        type: string
         required: true
       SERVICE_ID:
+        type: string
+        required: true
+    secrets:
+      PAT:
         required: true
 
 jobs:
@@ -42,7 +45,7 @@ jobs:
         context: .
         platforms: linux/amd64,linux/arm64
         push: true
-        tags: ${{ secrets.IMAGE }}
+        tags: ${{ inputs.IMAGE }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
 
@@ -50,5 +53,5 @@ jobs:
       uses: nhost-actions/nhost-run-config-deploy@v1
       with:
         configuration_file: nhost-service.toml
-        service_id: ${{ secrets.SERVICE_ID }}
-        image: ${{ secrets.IMAGE }}
+        service_id: ${{ inputs.SERVICE_ID }}
+        image: ${{ inputs.IMAGE }}
