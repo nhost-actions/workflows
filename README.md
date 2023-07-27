@@ -10,7 +10,7 @@ For details about supported arguments and secrets check [.github/workflows/build
 
 ### Example
 
-```
+``` yaml
 ---
 name: "Release to production"
 on:
