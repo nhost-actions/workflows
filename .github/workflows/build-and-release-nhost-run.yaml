@@ -4,13 +4,21 @@ on:
   workflow_call:
     inputs:
       IMAGE:
+        description: Image to build and push
         type: string
         required: true
       SERVICE_ID:
+        description: Service ID to deploy to
         type: string
         required: true
+      DOCKER_CONTEXT:
+        description: Path to folder where to build the docker image
+        type: string
+        required: false
+        default: .
     secrets:
       PAT:
+        description: Nhost PAT. See https://github.com/nhost-actions/authenticate#creating-a-pat
         required: true
 
 jobs:
