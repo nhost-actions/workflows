@@ -27,3 +27,5 @@ jobs:
     secrets:
       PAT: ${{ secrets.PAT }}
 ```
+
+For a more complex example you can head to [https://github.com/nhost/nhost-run-hello-world](https://github.com/nhost/nhost-run-hello-world).
