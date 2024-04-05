@@ -16,6 +16,11 @@ on:
         type: string
         required: false
         default: .
+      CONFIG_PATH:
+        description: Path to the service configuration toml file
+        type: string
+        required: false
+        default: nhost-service.toml
     secrets:
       PAT:
         description: Nhost PAT. See https://github.com/nhost-actions/authenticate#creating-a-pat
@@ -50,7 +55,7 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v4
       with:
-        context: .
+        context: ${{ inputs.DOCKER_CONTEXT }}
         platforms: linux/amd64,linux/arm64
         push: true
         tags: ${{ inputs.IMAGE }}
@@ -60,6 +65,6 @@ jobs:
     - name: Deploy service configuration
       uses: nhost-actions/nhost-run-config-deploy@v1
       with:
-        configuration_file: nhost-service.toml
+        configuration_file: ${{ inputs.CONFIG_PATH }}
         service_id: ${{ inputs.SERVICE_ID }}
         image: ${{ inputs.IMAGE }}
