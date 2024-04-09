@@ -20,6 +20,7 @@ on:
         description: Path to the Dockerfile
         type: string
         required: false
+        default: Dockerfile
       CONFIG_PATH:
         description: Path to the service configuration toml file
         type: string
