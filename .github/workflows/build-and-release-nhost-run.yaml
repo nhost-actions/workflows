@@ -16,6 +16,16 @@ on:
         type: string
         required: false
         default: .
+      DOCKER_FILE:
+        description: Path to the Dockerfile
+        type: string
+        required: false
+        default: Dockerfile
+      CONFIG_PATH:
+        description: Path to the service configuration toml file
+        type: string
+        required: false
+        default: nhost-service.toml
     secrets:
       PAT:
         description: Nhost PAT. See https://github.com/nhost-actions/authenticate#creating-a-pat
@@ -50,16 +60,17 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v4
       with:
-        context: .
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+        context: ${{ inputs.DOCKER_CONTEXT }}
+        file: ${{ inputs.DOCKER_FILE }}
         platforms: linux/amd64,linux/arm64
         push: true
         tags: ${{ inputs.IMAGE }}
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
 
     - name: Deploy service configuration
       uses: nhost-actions/nhost-run-config-deploy@v1
       with:
-        configuration_file: nhost-service.toml
+        configuration_file: ${{ inputs.CONFIG_PATH }}
         service_id: ${{ inputs.SERVICE_ID }}
         image: ${{ inputs.IMAGE }}
